@@ -223,8 +223,6 @@ function Calendar<T extends GenericEvent>({
   };
   const tableColumns = [hourColumn, ...dayColumns];
 
-  console.log(test, 'day columns');
-
   return (
     <div className="dayViewContainer">
       <Table
