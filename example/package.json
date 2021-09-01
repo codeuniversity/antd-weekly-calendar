@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "antd": "4.16.12",
+    "antd-weekly-calendar": "../antd-weekly-calendar-0.1.1.tgz",
+    "date-fns": "^2.23.0",
     "react-app-polyfill": "^1.0.0"
   },
   "alias": {

@@ -1,25 +1,33 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { add } from 'date-fns';
 import { WeeklyCalendar } from '../.';
-// import { WeeklyCalendar } from 'antd-weekly-calendar';
 
-import { Card, PageHeader } from 'antd';
+import { Card } from 'antd';
 import './index.less';
 
 const App = () => {
   const event = {
     eventId: '12',
     startTime: new Date(),
-    endTime: new Date(),
-    title: 'test',
+    endTime: add(new Date(), { hours: 1 }),
+    title: 'test event',
   };
+
+  const coloredEvent = {
+    eventId: '123',
+    startTime: add(new Date(), { days: 1 }),
+    endTime: add(new Date(), { days: 1, hours: 2 }),
+    title: 'another test event',
+    backgroundColor: 'green',
+  };
+
   return (
     <div>
-      {/* <Calendar /> */}
       <Card>
         <WeeklyCalendar
-          events={[event]}
+          events={[event, coloredEvent]}
           weekends={true}
           onEventClick={event => console.log(event)}
         />{' '}
