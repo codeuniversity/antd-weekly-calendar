@@ -2,6 +2,7 @@
 
 A weekly calendar component for antd.
 
+![Selection_839](https://user-images.githubusercontent.com/44646033/131834481-df365615-bd2d-43e0-a817-ae32b9140fd1.png)
 
 - [Antd Weekly Calendar](#antd-weekly-calendar)
   - [Getting Started](#getting-started)
@@ -13,8 +14,6 @@ A weekly calendar component for antd.
 
 ## Getting Started
 
-Install React Hook Calendar via NPM.
-React Hook Calendar requires React 16 or higher as a peer dependency.
 
 ```
 npm install antd-weekly-calendar
@@ -27,7 +26,7 @@ This is a basic example, check out the `example` folder for a complete Chakra UI
 ```tsx
 import {
   WeeklyCalendar,
-} from 'react-hook-calendar';
+} from 'antd-weekly-calendar';
 
 const events = [
   { startTime: new Date(2021, 3, 21, 12, 0, 0), endTime: new Date(2021, 3, 21, 14, 30, 0), title: 'Ap. 1', backgroundColor: 'red' },
