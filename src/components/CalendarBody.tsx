@@ -232,6 +232,9 @@ function Calendar<T extends GenericEvent>({
         pagination={false}
         bordered={true}
         showHeader={true}
+        scroll={{
+          y: 1000,
+        }}
       />
     </div>
   );
