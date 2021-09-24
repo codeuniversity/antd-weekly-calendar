@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Card } from "antd";
+import React, { useState, useEffect } from 'react';
+import { Card } from 'antd';
 import {
   getDay,
   eachDayOfInterval,
@@ -7,17 +7,17 @@ import {
   endOfWeek,
   isSameDay,
   isSameWeek,
-} from "date-fns";
+} from 'date-fns';
 
-import Calendar from "./CalendarBody";
-import { CalendarHeader } from "./CalendarHeader";
+import Calendar from './CalendarBody';
+import { CalendarHeader } from './CalendarHeader';
 
 import {
   GenericEvent,
   CalendarContainerProps,
   WeekObject,
   DayName,
-} from "./types";
+} from './types';
 
 export function WeeklyCalendar<T extends GenericEvent>({
   events,
@@ -33,18 +33,24 @@ export function WeeklyCalendar<T extends GenericEvent>({
   };
 
   useEffect(() => {
+    if (value && startOfWeek(value).getTime() !== startWeek.getTime()) {
+      setStartWeek(value);
+    }
+  }, [value]);
+
+  useEffect(() => {
     onSelectDate && onSelectDate(startWeek);
   }, [startWeek]);
 
   const daysToWeekObject = <T extends GenericEvent>(events: T[]) => {
     const dayNames: DayName[] = [
-      "sunday",
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
+      'sunday',
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
     ];
 
     const weekObject: WeekObject<T> = {
