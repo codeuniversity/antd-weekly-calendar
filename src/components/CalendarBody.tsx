@@ -26,6 +26,7 @@ const BOX_POSITION_OFFSET = 26;
 const HOUR_TO_DECIMAL = 1.666666667;
 const MIN_BOX_SIZE = 40;
 const TURQUOISE = '#36CFC9';
+const ALL_DAY_ROW = 0;
 
 const EventBlock = <T extends GenericEvent>({
   event,
@@ -232,6 +233,20 @@ function Calendar<T extends GenericEvent>({
         pagination={false}
         bordered={true}
         showHeader={true}
+        onRow={(_, rowIndex) => {
+          if (rowIndex === ALL_DAY_ROW) {
+            return {
+              style: {
+                backgroundColor: 'white',
+                position: 'sticky',
+                boxShadow: 'rgba(0, 0, 0, 0.05) -1px 4px 4px ',
+                zIndex: 1,
+                top: 0,
+              },
+            };
+          }
+          return {};
+        }}
         scroll={{
           y: 1000,
         }}
