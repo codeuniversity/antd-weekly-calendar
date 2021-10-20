@@ -1,31 +1,20 @@
-import React from 'react';
-import {
-  add,
-  isSameHour,
-  addHours,
-  startOfDay,
-  startOfWeek,
-  format,
-  getDay,
-  setDay,
-  differenceInMinutes,
-} from 'date-fns';
+import React, { useEffect, useRef } from 'react';
+import { add, format, getDay, setDay, differenceInMinutes } from 'date-fns';
 import { Table } from 'antd';
 
 import {
   GenericEvent,
-  WeekObject,
   CalendarBodyProps,
   EventsObject,
   EventBlockProps,
   ColumnNode,
-  GetWeekDates,
 } from './types';
+import { getDayHoursEvents, sizeEventBox, MIN_BOX_SIZE } from './utils';
 
 const BOX_POSITION_OFFSET = 26;
-const HOUR_TO_DECIMAL = 1.666666667;
-const MIN_BOX_SIZE = 40;
+const SCROLL_TO_ROW = 19;
 const TURQUOISE = '#36CFC9';
+const ALL_DAY_ROW = 0;
 
 const EventBlock = <T extends GenericEvent>({
   event,
@@ -80,77 +69,12 @@ function Calendar<T extends GenericEvent>({
   onEventClick,
   weekends,
 }: CalendarBodyProps<T>) {
-  const getDayHoursEvents = (
-    value: GetWeekDates,
-    weekObject: WeekObject<T> | undefined
-  ) => {
-    const ALL_DAY_EVENT = 0;
-    const events: EventsObject<T>[] = [];
-
-    for (let i = 0; i < 26; i++) {
-      const startDate = add(startOfDay(startOfWeek(value.startDate)), {
-        days: 1,
-      });
-      const hour = addHours(startDate, i - 1);
-
-      events.push({
-        id: i,
-        hourObject: hour,
-        hour: i != ALL_DAY_EVENT ? format(hour, 'hh a') : 'all-day',
-        Monday:
-          weekObject?.monday &&
-          weekObject?.monday.filter(e => {
-            return e.allDay
-              ? i === ALL_DAY_EVENT
-              : isSameHour(e.startTime, hour);
-          }),
-        Tuesday:
-          weekObject?.tuesday &&
-          weekObject?.tuesday.filter(e => {
-            return e.allDay
-              ? i === ALL_DAY_EVENT
-              : isSameHour(e.startTime, add(hour, { days: 1 }));
-          }),
-        Wednesday:
-          weekObject?.wednesday &&
-          weekObject?.wednesday.filter(e => {
-            return e.allDay
-              ? i === ALL_DAY_EVENT
-              : isSameHour(e.startTime, add(hour, { days: 2 }));
-          }),
-        Thursday:
-          weekObject?.thursday &&
-          weekObject?.thursday.filter(e => {
-            return e.allDay
-              ? i === ALL_DAY_EVENT
-              : isSameHour(e.startTime, add(hour, { days: 3 }));
-          }),
-        Friday:
-          weekObject?.friday &&
-          weekObject?.friday.filter(e => {
-            return e.allDay
-              ? i === ALL_DAY_EVENT
-              : isSameHour(e.startTime, add(hour, { days: 4 }));
-          }),
-        Saturday:
-          weekObject?.saturday &&
-          weekObject?.saturday.filter(e => {
-            return e.allDay
-              ? i === ALL_DAY_EVENT
-              : isSameHour(e.startTime, add(hour, { days: 5 }));
-          }),
-        Sunday:
-          weekObject?.sunday &&
-          weekObject?.sunday.filter(e => {
-            return e.allDay
-              ? i === ALL_DAY_EVENT
-              : isSameHour(e.startTime, add(hour, { days: 6 }));
-          }),
-      });
+  const rowRef = useRef<null | HTMLDivElement>(null);
+  useEffect(() => {
+    if (rowRef.current) {
+      rowRef.current?.scrollIntoView();
     }
-
-    return events;
-  };
+  }, [rowRef]);
 
   const dayList = weekends
     ? [
@@ -212,19 +136,24 @@ function Calendar<T extends GenericEvent>({
     dataIndex: 'hour',
     key: 'hour',
     width: 1,
-    render: (hour: ColumnNode<T>) => {
+    render: (hour: ColumnNode<T>, {}, id: number) => {
       return {
         props: {
           style: { width: '10%' },
         },
-        children: <div>{hour}</div>,
+        children:
+          SCROLL_TO_ROW === id ? (
+            <div ref={rowRef}>{hour}</div>
+          ) : (
+            <div>{hour}</div>
+          ),
       };
     },
   };
   const tableColumns = [hourColumn, ...dayColumns];
 
   return (
-    <div className="dayViewContainer">
+    <div>
       <Table
         rowKey={record => record.id}
         dataSource={getDayHoursEvents(weekDates, getDayEvents)}
@@ -232,6 +161,20 @@ function Calendar<T extends GenericEvent>({
         pagination={false}
         bordered={true}
         showHeader={true}
+        onRow={(_, rowIndex) => {
+          if (rowIndex === ALL_DAY_ROW) {
+            return {
+              style: {
+                backgroundColor: 'white',
+                position: 'sticky',
+                boxShadow: 'rgba(0, 0, 0, 0.05) -1px 4px 4px ',
+                zIndex: 1,
+                top: 0,
+              },
+            };
+          }
+          return {};
+        }}
         scroll={{
           y: 1000,
         }}
@@ -239,24 +182,5 @@ function Calendar<T extends GenericEvent>({
     </div>
   );
 }
-
-const sizeEventBox = <T extends GenericEvent>(event: T, hour: Date) => {
-  const eventStartTime = new Date(event.startTime);
-  const eventEndTime = new Date(event.endTime);
-  const boxSize =
-    Math.floor(
-      differenceInMinutes(eventEndTime, eventStartTime) * HOUR_TO_DECIMAL
-    ) < MIN_BOX_SIZE
-      ? MIN_BOX_SIZE
-      : Math.floor(
-          differenceInMinutes(eventEndTime, eventStartTime) * HOUR_TO_DECIMAL
-        );
-  const boxPosition =
-    differenceInMinutes(hour, eventStartTime) * HOUR_TO_DECIMAL > 100
-      ? 0
-      : differenceInMinutes(eventStartTime, hour) * HOUR_TO_DECIMAL;
-
-  return { boxPosition: boxPosition, boxSize: boxSize };
-};
 
 export default Calendar;
