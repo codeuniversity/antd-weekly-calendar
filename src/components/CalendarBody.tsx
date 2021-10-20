@@ -23,8 +23,7 @@ import {
 } from './types';
 
 const BOX_POSITION_OFFSET = 26;
-const HOUR_TO_DECIMAL = 1.666666667;
-const MIN_BOX_SIZE = 40;
+const SCROLL_TO_ROW = 19;
 const TURQUOISE = '#36CFC9';
 const ALL_DAY_ROW = 0;
 
@@ -81,6 +80,14 @@ function Calendar<T extends GenericEvent>({
   onEventClick,
   weekends,
 }: CalendarBodyProps<T>) {
+  const rowRef = useRef<null | HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (rowRef.current) {
+      rowRef.current?.scrollIntoView();
+    }
+  }, [rowRef]);
+
   const getDayHoursEvents = (
     value: GetWeekDates,
     weekObject: WeekObject<T> | undefined
@@ -213,12 +220,17 @@ function Calendar<T extends GenericEvent>({
     dataIndex: 'hour',
     key: 'hour',
     width: 1,
-    render: (hour: ColumnNode<T>) => {
+    render: (hour: ColumnNode<T>, {}, id: number) => {
       return {
         props: {
           style: { width: '10%' },
         },
-        children: <div>{hour}</div>,
+        children:
+          SCROLL_TO_ROW === id ? (
+            <div ref={rowRef}>{hour}</div>
+          ) : (
+            <div>{hour}</div>
+          ),
       };
     },
   };
