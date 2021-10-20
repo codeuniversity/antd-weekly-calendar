@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from 'antd';
-import {
-  getDay,
-  eachDayOfInterval,
-  startOfWeek,
-  endOfWeek,
-  isSameDay,
-  isSameWeek,
-} from 'date-fns';
+import { startOfWeek, endOfWeek } from 'date-fns';
 
 import Calendar from './CalendarBody';
 import { CalendarHeader } from './CalendarHeader';
-
-import {
-  GenericEvent,
-  CalendarContainerProps,
-  WeekObject,
-  DayName,
-} from './types';
+import { GenericEvent, CalendarContainerProps } from './types';
+import { daysToWeekObject } from './utils';
 
 export function WeeklyCalendar<T extends GenericEvent>({
   events,
@@ -42,58 +30,7 @@ export function WeeklyCalendar<T extends GenericEvent>({
     onSelectDate && onSelectDate(startWeek);
   }, [startWeek]);
 
-  const daysToWeekObject = <T extends GenericEvent>(events: T[]) => {
-    const dayNames: DayName[] = [
-      'sunday',
-      'monday',
-      'tuesday',
-      'wednesday',
-      'thursday',
-      'friday',
-      'saturday',
-    ];
-
-    const weekObject: WeekObject<T> = {
-      sunday: [],
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: [],
-      saturday: [],
-    };
-
-    if (events == null) {
-      return weekObject;
-    }
-
-    for (const googleEventIndex in events) {
-      const eventStartTimeDay = events[googleEventIndex].startTime;
-      const eventEndTimeDay = events[googleEventIndex].endTime;
-
-      if (!isSameDay(eventStartTimeDay, eventEndTimeDay)) {
-        const result = eachDayOfInterval({
-          start: eventStartTimeDay,
-          end: eventEndTimeDay,
-        });
-        for (const dayInterval in result) {
-          const splitedEvent = { ...events[googleEventIndex] };
-          splitedEvent.startTime = result[dayInterval];
-          splitedEvent.endTime = result[dayInterval];
-          const weekObjectKey: DayName =
-            dayNames[getDay(new Date(result[dayInterval]))];
-          isSameWeek(startWeek, splitedEvent.startTime) &&
-            weekObject[weekObjectKey].push(splitedEvent);
-        }
-      } else {
-        const weekObjectKey: DayName = dayNames[getDay(eventStartTimeDay)];
-        weekObject[weekObjectKey].push(events[googleEventIndex]);
-      }
-    }
-
-    return weekObject;
-  };
-  const weekObject = daysToWeekObject(events);
+  const weekObject = daysToWeekObject(events, startWeek);
 
   return (
     <Card>
