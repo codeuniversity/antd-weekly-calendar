@@ -2,7 +2,7 @@
 
 A weekly calendar component for antd.
 
-![Selection_839](https://user-images.githubusercontent.com/44646033/131834481-df365615-bd2d-43e0-a817-ae32b9140fd1.png)
+![Selection_839](https://i.im.ge/2022/12/18/dnPCy8.image.png)
 
 - [Antd Weekly Calendar](#antd-weekly-calendar)
   - [Getting Started](#getting-started)
