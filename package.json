@@ -8,18 +8,19 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/yoavweber/antd-weekly-calendar.git"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test --passWithNoTests",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "test": "vitest",
+    "lint": "eslint . --ext .ts,.tsx",
+    "prepare": "vite build",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
@@ -57,12 +58,20 @@
     "tslib": "^2.6.3"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "eslint": "^8.45.0",
     "husky": "^9.1.4",
-    "tsdx": "^0.13.3",
-    "typescript": "^5.5.4"
+    "identity-obj-proxy": "^3.0.0",
+    "jsdom": "^24.1.1",
+    "size-limit": "^6.0.0",
+    "typescript": "^5.5.4",
+    "vite": "^4.0.0",
+    "vitest": "^0.32.2"
   }
 }
