@@ -22,7 +22,9 @@
     "lint": "eslint . --ext .ts,.tsx",
     "prepare": "vite build",
     "size": "size-limit",
-    "analyze": "size-limit --why"
+    "analyze": "size-limit --why",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "husky": {
     "hooks": {
@@ -58,6 +60,20 @@
     "tslib": "^2.6.3"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^1.6.1",
+    "@storybook/addon-actions": "^8.2.9",
+    "@storybook/addon-essentials": "^8.2.9",
+    "@storybook/addon-interactions": "^8.2.9",
+    "@storybook/addon-links": "^8.2.9",
+    "@storybook/addon-onboarding": "^8.2.9",
+    "@storybook/addons": "^7.6.17",
+    "@storybook/blocks": "^8.2.9",
+    "@storybook/builder-webpack5": "^8.2.9",
+    "@storybook/manager-webpack5": "^6.5.16",
+    "@storybook/preset-create-react-app": "^8.2.9",
+    "@storybook/react": "^8.2.9",
+    "@storybook/react-vite": "^8.2.9",
+    "@storybook/test": "^8.2.9",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^16.0.0",
@@ -66,12 +82,22 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.0.0",
     "eslint": "^8.45.0",
+    "eslint-plugin-storybook": "^0.8.0",
     "husky": "^9.1.4",
     "identity-obj-proxy": "^3.0.0",
     "jsdom": "^24.1.1",
     "size-limit": "^6.0.0",
+    "storybook": "^8.2.9",
     "typescript": "^5.5.4",
     "vite": "^4.0.0",
     "vitest": "^0.32.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended",
+      "plugin:storybook/recommended",
+      "plugin:storybook/recommended",
+      "plugin:storybook/recommended"
+    ]
   }
 }
