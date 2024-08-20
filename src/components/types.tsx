@@ -9,22 +9,24 @@ export interface GenericEvent {
   backgroundColor?: string | undefined
 }
 
-export interface CalendarProps<T> {
-  onEventClick?: (e: T) => any | undefined
-  onSelectDate?: (e: Date) => any | undefined
-  weekends?: boolean
-  eventTextColor?: string
-  eventBackgroundColor?: string
+export interface BaseCalendarProps<T extends GenericEvent = GenericEvent> {
+  onEventClick?: (e: T) => any | undefined;
+  onSelectDate?: (e: Date) => any | undefined;
+  weekends: boolean;
+  eventTextColor?: string;
+  eventBackgroundColor?: string;
 }
 
-export interface CalendarContainerProps<T> extends CalendarProps<T> {
-  events: T[]
-  value?: Date
+export interface CalendarContainerProps<T extends GenericEvent = GenericEvent>
+  extends BaseCalendarProps<T> {
+  events: T[];
+  value?: Date;
 }
 
-export interface CalendarBodyProps<T> extends CalendarProps<T> {
-  weekDatesRange: WeekDateRange
-  getDayEvents: WeekObject<T> | undefined
+export interface CalendarBodyProps<T extends GenericEvent = GenericEvent>
+  extends BaseCalendarProps<T> {
+  weekDatesRange: WeekDateRange;
+  getDayEvents?: WeekObject<T>;
 }
 
 export type WeekObject<T> = {

@@ -38,7 +38,7 @@ export function WeeklyCalendar<T extends GenericEvent>({
       <Calendar
         weekDates={weekPeriod}
         getDayEvents={weekObject}
-        onEventClick={onEventClick}
+        onEventClick={onEventClick as (e: GenericEvent) => any}
         weekends={weekends}
       />
     </Card>
