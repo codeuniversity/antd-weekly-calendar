@@ -22,7 +22,9 @@ function Calendar<T extends GenericEvent>({
   const rowRef = useRef<null | HTMLDivElement>(null);
   useEffect(() => {
     if (rowRef.current) {
+      // INFO: first scrolling both the calendar and the window, and then scrolling back the window
       rowRef.current?.scrollIntoView();
+      window.scrollTo(0, 0);
     }
   }, [rowRef]);
   const dayColumns = createDayColumns(weekDatesRange, weekends, onEventClick)
@@ -67,7 +69,7 @@ function Calendar<T extends GenericEvent>({
                 backgroundColor: 'white',
                 position: 'sticky',
                 boxShadow: 'rgba(0, 0, 0, 0.05) -1px 4px 4px ',
-                zIndex: 1,
+                zIndex: 2,
                 top: 0,
               },
             };
