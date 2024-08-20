@@ -1,2 +1,2 @@
 
-export * from './components/WeeklyCalendar'
+export * from './WeeklyCalendar'

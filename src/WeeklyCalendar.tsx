@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Card } from 'antd';
 import { startOfWeek, endOfWeek } from 'date-fns';
 
-import Calendar from './CalendarBody';
-import { CalendarHeader } from './CalendarHeader';
-import { GenericEvent, CalendarContainerProps } from './types';
-import { daysToWeekObject } from './utils';
+import Calendar from './components/CalendarBody';
+import { CalendarHeader } from './components/CalendarHeader';
+import { GenericEvent, CalendarContainerProps } from './components/types';
+import { daysToWeekObject } from './components/utils';
 
 export function WeeklyCalendar<T extends GenericEvent>({
   events,
