@@ -23,7 +23,7 @@ export interface CalendarContainerProps<T> extends CalendarProps<T> {
 }
 
 export interface CalendarBodyProps<T> extends CalendarProps<T> {
-  weekDates: GetWeekDates
+  weekDatesRange: WeekDateRange
   getDayEvents: WeekObject<T> | undefined
 }
 
@@ -60,7 +60,7 @@ export type EventsObject<T> = {
   Sunday: T[] | undefined
 }
 
-export interface GetWeekDates {
+export interface WeekDateRange {
   startDate: Date
   endDate: Date
 }

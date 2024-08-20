@@ -14,7 +14,7 @@ const ALL_DAY_ROW = 0;
 
 
 function Calendar<T extends GenericEvent>({
-  weekDates,
+  weekDatesRange,
   getDayEvents,
   onEventClick,
   weekends,
@@ -25,7 +25,7 @@ function Calendar<T extends GenericEvent>({
       rowRef.current?.scrollIntoView();
     }
   }, [rowRef]);
-  const dayColumns = createDayColumns(weekDates, weekends, onEventClick)
+  const dayColumns = createDayColumns(weekDatesRange, weekends, onEventClick)
 
   const hourColumn = {
     title: 'Hours',
@@ -55,7 +55,7 @@ function Calendar<T extends GenericEvent>({
     <div>
       <Table
         rowKey={record => record.id}
-        dataSource={getDayHoursEvents(weekDates, getDayEvents)}
+        dataSource={getDayHoursEvents(weekDatesRange, getDayEvents)}
         columns={tableColumns}
         pagination={false}
         bordered={true}

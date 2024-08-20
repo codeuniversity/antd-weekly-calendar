@@ -15,7 +15,7 @@ import {
 import {
   WeekObject,
   EventsObject,
-  GetWeekDates,
+  WeekDateRange,
   GenericEvent,
   DayName,
 } from './types';
@@ -76,7 +76,7 @@ export const daysToWeekObject = <T extends GenericEvent>(
 };
 
 export const getDayHoursEvents = <T extends GenericEvent>(
-  value: GetWeekDates,
+  value: WeekDateRange,
   weekObject: WeekObject<T> | undefined
 ) => {
   const ALL_DAY_EVENT = 0;
