@@ -190,8 +190,6 @@ export const MIN_BOX_SIZE = 40;
 export const sizeEventBox = <T extends GenericEvent>(event: T, hour: Date) => {
   const eventStartTime = new Date(event.startTime);
   const eventEndTime = new Date(event.endTime);
-  console.log(eventStartTime, eventEndTime, "the event time!")
-  console.log(hour, "the given hour!")
 
   const boxSize =
     Math.floor(
@@ -205,7 +203,5 @@ export const sizeEventBox = <T extends GenericEvent>(event: T, hour: Date) => {
     differenceInMinutes(hour, eventStartTime) * HOUR_TO_DECIMAL > 100
       ? 0
       : differenceInMinutes(eventStartTime, hour) * HOUR_TO_DECIMAL;
-  console.log("box position claculation:", differenceInMinutes(eventStartTime, hour), hour, eventStartTime)
-  console.log({ boxPosition: boxPosition, boxSize: boxSize }, "the box size!")
   return { boxPosition: boxPosition, boxSize: boxSize };
 };
