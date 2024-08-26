@@ -14,7 +14,7 @@ export function WeeklyCalendar<T extends GenericEvent>({
   weekends = false,
   value,
 }: CalendarContainerProps<T>) {
-  const [startWeek, setStartWeek] = useState(startOfWeek(value || new Date()));
+  const [startWeek, setStartWeek] = useState(startOfWeek(value || new Date(), { weekStartsOn: 0 }));
   const weekPeriod = {
     startDate: startWeek,
     endDate: endOfWeek(startWeek),
