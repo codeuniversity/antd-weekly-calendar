@@ -92,74 +92,94 @@ export const daysToWeekObject = <T extends GenericEvent>(
   return weekObject;
 };
 
+/**
+ *
+ * This function processes a week's worth of events, grouping them by hour for each day of the week.
+ * It creates an array of objects representing each hour slot. Each object contains a list of events that occur within that hour on each day.
+ * The first row represents all-day events, followed by 24 hourly rows.
+ *
+ * @template T - The type of the event objects. This should extend the GenericEvent interface.
+ * @param {WeekDateRange} weekRange - The start and end dates for the week being processed.
+ * @param {WeekObject<T>} [weekObject] - An object containing arrays of events for each day of the week.
+ * @returns {EventsObject<T>[]} An array of event objects, grouped by hour, to be used in a calendar table.
+ *
+ * @remarks
+ * - The function generates 26 rows: 1 for all-day events, 24 for each hour of the day, and 1 header row.
+ * - Each day of the week is processed, and events are filtered to determine whether they occur within the
+ *   corresponding hour slot. The `isSameHour` function ensures that events are accurately placed.
+ * - The generated array can be used to populate an Ant Design Table component, aligning events with their
+ *   corresponding hour and day.
+ *
+ * @see createDayColumns
+ */
+
 export const getDayHoursEvents = <T extends GenericEvent>(
-  value: WeekDateRange,
+  weekRange: WeekDateRange,
   weekObject: WeekObject<T> | undefined
 ) => {
   const ALL_DAY_EVENT = 0;
+  const ROW_AMOUNT = 26
+
   const events: EventsObject<T>[] = [];
-  console.log(weekObject, "the week object!")
-  // TDOO: what is the 26?
-  for (let i = 0; i < 26; i++) {
-    const startDate = add(startOfDay(startOfWeek(value.startDate)), {
-      days: 1,
-    });
-    const hour = addHours(startDate, i - 1);
+  for (let i = 0; i < ROW_AMOUNT; i++) {
+    const startDate = startOfDay(startOfWeek(weekRange.startDate))
+    const hour = addHours(startDate, i);
 
     events.push({
       id: i,
       hourObject: hour,
       hour: i != ALL_DAY_EVENT ? format(hour, 'hh a') : 'all-day',
+      Sunday:
+        weekObject?.sunday &&
+        weekObject?.sunday.filter(e => {
+
+          return e.allDay
+            ? i === ALL_DAY_EVENT
+            : isSameHour(e.startTime, add(hour, { days: 0 }));
+        }),
       Monday:
         weekObject?.monday &&
         weekObject?.monday.filter(e => {
-          return e.allDay ? i === ALL_DAY_EVENT : isSameHour(e.startTime, hour);
+          return e.allDay ? i === ALL_DAY_EVENT : isSameHour(e.startTime, add(hour, { days: 1 }));
         }),
       Tuesday:
         weekObject?.tuesday &&
         weekObject?.tuesday.filter(e => {
           return e.allDay
             ? i === ALL_DAY_EVENT
-            : isSameHour(e.startTime, add(hour, { days: 1 }));
+            : isSameHour(e.startTime, add(hour, { days: 2 }));
         }),
       Wednesday:
         weekObject?.wednesday &&
         weekObject?.wednesday.filter(e => {
           return e.allDay
             ? i === ALL_DAY_EVENT
-            : isSameHour(e.startTime, add(hour, { days: 2 }));
+            : isSameHour(e.startTime, add(hour, { days: 3 }));
         }),
       Thursday:
         weekObject?.thursday &&
         weekObject?.thursday.filter(e => {
           return e.allDay
             ? i === ALL_DAY_EVENT
-            : isSameHour(e.startTime, add(hour, { days: 3 }));
+            : isSameHour(e.startTime, add(hour, { days: 4 }));
         }),
       Friday:
         weekObject?.friday &&
         weekObject?.friday.filter(e => {
           return e.allDay
             ? i === ALL_DAY_EVENT
-            : isSameHour(e.startTime, add(hour, { days: 4 }));
+            : isSameHour(e.startTime, add(hour, { days: 5 }));
         }),
       Saturday:
         weekObject?.saturday &&
         weekObject?.saturday.filter(e => {
           return e.allDay
             ? i === ALL_DAY_EVENT
-            : isSameHour(e.startTime, add(hour, { days: 5 }));
-        }),
-      Sunday:
-        weekObject?.sunday &&
-        weekObject?.sunday.filter(e => {
-          return e.allDay
-            ? i === ALL_DAY_EVENT
             : isSameHour(e.startTime, add(hour, { days: 6 }));
-        }),
+        })
+
     });
   }
-
   return events;
 };
 
