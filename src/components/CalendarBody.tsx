@@ -27,6 +27,7 @@ function Calendar<T extends GenericEvent>({
     }
   }, [rowRef]);
 
+  const fontSize = screens.xs ? '12px' : '14px'
   const hourColumn = {
     title: <div style={{ fontSize: screens.xs ? '14px' : '16px', textAlign: 'center', padding: '8px 0' }}>Hours</div>,
     dataIndex: 'hour',
@@ -37,9 +38,7 @@ function Calendar<T extends GenericEvent>({
         props: {
           style: {
             width: screens.xs ? '30%' : '10%',
-            textAlign: 'center',
-            fontSize: screens.xs ? '12px' : '14px',
-            padding: '8px 0',
+            fontSize: fontSize
           },
         },
         children: SCROLL_TO_ROW === id ? (
@@ -56,12 +55,8 @@ function Calendar<T extends GenericEvent>({
     title: (
       <div
         style={{
-          fontSize: screens.xs ? '12px' : '16px',
-          textAlign: 'center',
           whiteSpace: 'nowrap',
-          padding: '8px 0',
-          backgroundColor: '#f5f5f5', // Light gray background for better separation
-          borderBottom: '1px solid #d9d9d9', // Add bottom border for separation
+          fontSize: fontSize
         }}
       >
         {col.title}
@@ -72,7 +67,7 @@ function Calendar<T extends GenericEvent>({
   const tableColumns = [hourColumn, ...dayColumns];
 
   return (
-    <div style={{ overflowX: 'scroll', padding: '10px' }}>
+    <div style={{ overflowX: 'scroll' }}>
       <Table
         rowKey={record => record.id}
         dataSource={getDayHoursEvents(weekDatesRange, getDayEvents)}
