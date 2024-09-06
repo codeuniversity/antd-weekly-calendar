@@ -29,14 +29,21 @@ const MonthName: React.FunctionComponent<MonthNameProps> = ({ startWeek }) => {
     return format(startWeek, 'MMM') + '-' + format(endOfWeekDate, 'MMM');
   };
 
+  const belowButtonPadding = "4px 15px"
+
   return (
-    <div style={{ display: 'flex', maxHeight: '25px' }}>
-      <Typography.Title
-        level={5}
-        style={{ marginBottom: 0, marginRight: '10px' }}
+    <div style={{ display: 'flex', alignItems: 'center', maxHeight: '25px' }}>
+      <div
+        style={{
+          fontSize: "16px",
+          fontWeight: 500,
+          marginBottom: 0,
+          marginRight: '10px',
+          padding: belowButtonPadding
+        }}
       >
         {getMonthName()}
-      </Typography.Title>
+      </div>
       <Tag>Week {getWeek(new Date(addWeeks(startWeek, -1)))}</Tag>
     </div>
   );
@@ -48,6 +55,11 @@ export const CalendarHeader: React.FunctionComponent<CalendarHeaderProps> = ({
 }) => {
   return (
     <>
+      <Row style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+        <div style={{ alignSelf: 'center' }}>
+          <MonthName startWeek={startWeek} />
+        </div>
+      </Row>
       <Row justify="space-between" style={{ marginBottom: '20px' }}>
         <Col
           style={{
@@ -74,9 +86,7 @@ export const CalendarHeader: React.FunctionComponent<CalendarHeaderProps> = ({
               </Button>
             </div>
           </div>
-          <div style={{ alignSelf: 'center' }}>
-            <MonthName startWeek={startWeek} />
-          </div>
+
         </Col>
         <Col>
           <DatePicker
