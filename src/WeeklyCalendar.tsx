@@ -13,18 +13,21 @@ export function WeeklyCalendar<T extends GenericEvent>({
   onSelectDate,
   weekends = false,
   currentDate,
+  value
 }: CalendarContainerProps<T>) {
-  const [startWeek, setStartWeek] = useState(startOfWeek(currentDate || new Date(), { weekStartsOn: 0 }));
+  const dateToUse = currentDate || value;
+
+  const [startWeek, setStartWeek] = useState(startOfWeek(dateToUse || new Date(), { weekStartsOn: 0 }));
   const weekPeriod = {
     startDate: startWeek,
     endDate: endOfWeek(startWeek),
   };
 
   useEffect(() => {
-    if (currentDate && startOfWeek(currentDate).getTime() !== startWeek.getTime()) {
-      setStartWeek(currentDate);
+    if (dateToUse && startOfWeek(dateToUse).getTime() !== startWeek.getTime()) {
+      setStartWeek(dateToUse);
     }
-  }, [currentDate]);
+  }, [dateToUse]);
 
   useEffect(() => {
     onSelectDate && onSelectDate(startWeek);
