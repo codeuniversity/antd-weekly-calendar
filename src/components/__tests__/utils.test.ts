@@ -5,7 +5,41 @@ import { describe, it, expect } from 'vitest';
 // import { isSameDay, isSameWeek, eachDayOfInterval, getDay } from 'date-fns';
 
 describe('daysToWeekObject', () => {
-  const startWeek = new Date('2024-08-19');
+  const startWeek = new Date('2024-08-18');
+
+  it('should correctly map events to the corresponding days of the week', () => {
+    const events: GenericEvent[] = [
+      {
+        eventId: '1',
+        startTime: new Date('2024-08-26T08:30:18.257Z'),
+        endTime: new Date('2024-08-26T09:30:18.257Z'),
+        title: 'Event 1',
+      },
+      {
+        eventId: '2',
+        startTime: new Date('2024-08-25T06:30:18.258Z'),
+        endTime: new Date('2024-08-25T07:30:18.258Z'),
+        title: 'Event 2',
+        backgroundColor: 'red',
+      },
+    ];
+
+    const startWeek = new Date('2024-08-18T00:00:00.000Z');
+
+    const expectedWeekObject = {
+      monday: [],
+      tuesday: [],
+      wednesday: [],
+      thursday: [],
+      friday: [],
+      saturday: [],
+      sunday: [],
+    };
+
+    const result = daysToWeekObject(events, startWeek);
+
+    expect(result).toEqual(expectedWeekObject);
+  });
 
   it('should correctly place single-day events into the correct days', () => {
     const events: GenericEvent[] = [

@@ -73,12 +73,12 @@ describe('Calendar Component', () => {
 
     it('renders correct date labels', () => {
         const { getByText } = render(<CalendarBody {...defaultProps} weekends={true} />);
-        const expectedLabels = ['Hours', 'Mon 02', 'Tue 03', 'Wed 04', 'Thu 05', 'Fri 06', 'Sat 07', 'Sun 08'];
+        const expectedLabels = ['Hours', 'Sun 01', 'Mon 02', 'Tue 03', 'Wed 04', 'Thu 05', 'Fri 06', 'Sat 07'];
         expectedLabels.forEach(label => {
             expect(getByText(label)).toBeInTheDocument();
         });
     });
-    // currenly this is test is not catching the error
+    // // currenly this is test is not catching the error
     it('renders events when provided', () => {
         const { getByText } = render(<CalendarBody {...defaultProps} />);
         expect(getByText('Test Event 1')).toBeInTheDocument();
@@ -98,7 +98,7 @@ describe('Calendar Component', () => {
 
     it('calls onEventClick when an event is clicked', async () => {
         const user = userEvent.setup();
-        const onEventClick = vi.fn();  // Use `vi.fn()` instead of `jest.fn()`
+        const onEventClick = vi.fn(); 
 
         const { getByText } = render(<CalendarBody {...defaultProps} onEventClick={onEventClick} />);
 

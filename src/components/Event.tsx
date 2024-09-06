@@ -1,16 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import { add, format, getDay, setDay, differenceInMinutes } from 'date-fns';
-import { Table } from 'antd';
-import { ColumnProps } from 'antd/es/table';
+import React from 'react';
+import { getDay, setDay, differenceInMinutes } from 'date-fns';
 
 import {
     GenericEvent,
-    CalendarBodyProps,
-    EventsObject,
     EventBlockProps,
-    ColumnNode,
 } from './types';
-import { getDayHoursEvents, sizeEventBox, MIN_BOX_SIZE } from './utils';
+import { sizeEventBox, MIN_BOX_SIZE } from './utils';
 
 const BOX_POSITION_OFFSET = 26;
 const TURQUOISE = '#36CFC9';

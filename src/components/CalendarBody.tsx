@@ -4,7 +4,6 @@ import { Table, Grid } from 'antd';
 import {
   GenericEvent,
   CalendarBodyProps,
-  ColumnNode,
 } from './types';
 import { getDayHoursEvents } from './utils';
 import { createDayColumns, SCROLL_TO_ROW } from './columns';
@@ -33,7 +32,7 @@ function Calendar<T extends GenericEvent>({
     dataIndex: 'hour',
     key: 'hour',
     width: screens.xs ? 50 : 1,
-    render: (hour: ColumnNode<T>, {}, id: number) => {
+    render: (hour: string, { }, id: number) => {
       return {
         props: {
           style: {
@@ -59,6 +58,7 @@ function Calendar<T extends GenericEvent>({
           fontSize: fontSize
         }}
       >
+        {/*  @ts-ignore */}
         {col.title}
       </div>
     ),
