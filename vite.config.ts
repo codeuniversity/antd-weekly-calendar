@@ -1,9 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
-    plugins: [react()],
+    plugins: [react(), dts({
+        tsconfigPath: './tsconfig.build.json',
+    }),],
     build: {
         lib: {
             entry: path.resolve(__dirname, 'src/index.ts'),  // This is correct
@@ -20,6 +23,7 @@ export default defineConfig({
                 },
             },
         },
+
         emptyOutDir: false,  // Prevent Vite from clearing the output directory
     },
 });
