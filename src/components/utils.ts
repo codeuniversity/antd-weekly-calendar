@@ -205,3 +205,20 @@ export const sizeEventBox = <T extends GenericEvent>(event: T, hour: Date) => {
       : differenceInMinutes(eventStartTime, hour) * HOUR_TO_DECIMAL;
   return { boxPosition: boxPosition, boxSize: boxSize };
 };
+
+/**
+ * calculateScrollOffset - A  to calculate the scroll offset needed to bring a specific row into view.
+ * 
+ * @param {HTMLDivElement} container - The container element that is scrollable.
+ * @param {HTMLDivElement} row - The row element that needs to be scrolled into view.
+ * @returns {number} - The calculated scroll offset value.
+ * 
+ * This function calculates how much the container needs to be scrolled to bring the target row into view.
+ * It determines the difference between the container's top position and the row's top position, and adjusts
+ * the scroll position accordingly, with an extra offset to position the row appropriately in the view.
+ */
+export function calculateScrollOffset(container: HTMLDivElement, row: HTMLDivElement): number {
+  const containerTop = container.getBoundingClientRect().top;
+  const rowTop = row.getBoundingClientRect().top;
+  return rowTop - containerTop  // Adjust to scroll just enough to show the row
+}
