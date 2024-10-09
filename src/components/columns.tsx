@@ -9,7 +9,7 @@ import {
 } from './types';
 import { EventBlock } from './Event';
 
-export const SCROLL_TO_ROW = 19;
+export const SCROLL_TO_ROW = 6;
 
 
 

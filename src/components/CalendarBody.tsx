@@ -1,11 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { Table, Grid } from 'antd';
 
-import {
-  GenericEvent,
-  CalendarBodyProps,
-} from './types';
-import { getDayHoursEvents } from './utils';
+import { GenericEvent, CalendarBodyProps } from './types';
+import { getDayHoursEvents, calculateScrollOffset } from './utils';
 import { createDayColumns, SCROLL_TO_ROW } from './columns';
 
 const ALL_DAY_ROW = 0;
@@ -18,17 +15,30 @@ function Calendar<T extends GenericEvent>({
   weekends,
 }: CalendarBodyProps<T>) {
   const rowRef = useRef<null | HTMLDivElement>(null);
+  const tableContainerRef = useRef<null | HTMLDivElement>(null);
+
   const screens = useBreakpoint();
 
   useEffect(() => {
-    if (rowRef.current) {
-      rowRef.current.scrollIntoView();
+    if (rowRef.current && tableContainerRef.current && 'scrollTo' in tableContainerRef.current) {
+      const scrollOffset = calculateScrollOffset(tableContainerRef.current, rowRef.current);
+      tableContainerRef.current.scrollTo({ top: scrollOffset, behavior: 'smooth' });
     }
-  }, [rowRef]);
+  }, [SCROLL_TO_ROW]);
 
-  const fontSize = screens.xs ? '12px' : '14px'
+  const fontSize = screens.xs ? '12px' : '14px';
   const hourColumn = {
-    title: <div style={{ fontSize: screens.xs ? '14px' : '16px', textAlign: 'center', padding: '8px 0' }}>Hours</div>,
+    title: (
+      <div
+        style={{
+          fontSize: screens.xs ? '14px' : '16px',
+          textAlign: 'center',
+          padding: '8px 0',
+        }}
+      >
+        Hours
+      </div>
+    ),
     dataIndex: 'hour',
     key: 'hour',
     width: screens.xs ? 50 : 1,
@@ -37,7 +47,7 @@ function Calendar<T extends GenericEvent>({
         props: {
           style: {
             width: screens.xs ? '30%' : '10%',
-            fontSize: fontSize
+            fontSize: fontSize,
           },
         },
         children: SCROLL_TO_ROW === id ? (
@@ -55,7 +65,7 @@ function Calendar<T extends GenericEvent>({
       <div
         style={{
           whiteSpace: 'nowrap',
-          fontSize: fontSize
+          fontSize: fontSize,
         }}
       >
         {/*  @ts-ignore */}
@@ -67,9 +77,16 @@ function Calendar<T extends GenericEvent>({
   const tableColumns = [hourColumn, ...dayColumns];
 
   return (
-    <div style={{ overflowX: 'scroll' }}>
+    <div
+      ref={tableContainerRef}
+
+      style={{
+        height: '80vh', // Set a fixed height for the container
+        overflow: 'auto', // Allow both vertical and horizontal scrolling within the container only
+      }}
+    >
       <Table
-        rowKey={record => record.id}
+        rowKey={(record) => record.id}
         dataSource={getDayHoursEvents(weekDatesRange, getDayEvents)}
         columns={tableColumns}
         pagination={false}
@@ -81,23 +98,23 @@ function Calendar<T extends GenericEvent>({
               style: {
                 backgroundColor: 'white',
                 position: 'sticky',
-                boxShadow: 'rgba(0, 0, 0, 0.05) -1px 4px 4px ',
-                zIndex: 1,
+                boxShadow: 'rgba(0, 0, 0, 0.05) -1px 4px 4px',
+                zIndex: 3,
                 top: 0,
                 padding: '8px 0',
               },
             };
-          }
+          } 
           return {
             style: {
-              padding: '8px 0', // Add padding for each row
+              padding: '8px 0',
             },
           };
         }}
-        scroll={{
-          y: screens.xs ? 300 : 1000,
-          x: 'max-content',
-        }}
+        // scroll={{
+        //   y: screens.xs ? 300 : 1000,
+        //   x: 'max-content',
+        // }}
       />
     </div>
   );
