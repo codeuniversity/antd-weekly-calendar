@@ -20,7 +20,12 @@ export interface BaseCalendarProps<T extends GenericEvent = GenericEvent> {
 export interface CalendarContainerProps<T extends GenericEvent = GenericEvent>
   extends BaseCalendarProps<T> {
   events: T[];
+  /**
+   * @deprecated Use `currentDate` instead.
+   */
   value?: Date;
+
+  currentDate?: Date;
 }
 
 export interface CalendarBodyProps<T extends GenericEvent = GenericEvent>
