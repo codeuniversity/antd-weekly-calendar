@@ -111,10 +111,7 @@ function Calendar<T extends GenericEvent>({
             },
           };
         }}
-        // scroll={{
-        //   y: screens.xs ? 300 : 1000,
-        //   x: 'max-content',
-        // }}
+
       />
     </div>
   );
